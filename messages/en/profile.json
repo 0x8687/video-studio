@@ -8,6 +8,7 @@
   "apiConfig": "API Configuration",
   "rechargeRecords": "Recharge Records",
   "billingRecords": "Billing Records",
+  "changePassword": "Change Password",
   "logout": "Logout",
   "downloadLogs": "Download Logs",
   "accountTransactions": "Account Transactions",

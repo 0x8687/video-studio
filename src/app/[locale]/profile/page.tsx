@@ -79,6 +79,23 @@ export default function ProfilePage() {
                   <AppIcon name="receipt" className="w-5 h-5" />
                   <span className="font-medium">{t('billingRecords')}</span>
                 </button>
+                <button
+                  onClick={() => {
+                    setActiveSection('apiConfig')
+                    try {
+                      const el = document.getElementById('change-password-card')
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }
+                    } catch {
+                      // ignore scrolling errors
+                    }
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all cursor-pointer text-[var(--glass-text-secondary)] hover:bg-[var(--glass-bg-muted)]"
+                >
+                  <AppIcon name="lock" className="w-5 h-5" />
+                  <span className="font-medium">{t('changePassword')}</span>
+                </button>
               </nav>
               {/* 退出登录 */}
               <button

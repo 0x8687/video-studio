@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, FormEvent } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { GlassModalShell } from '@/components/ui/primitives'
 import { resolveTaskPresentationState } from '@/lib/task/presentation'
@@ -119,6 +119,7 @@ export function ApiConfigTabContainer() {
   const t = useTranslations('apiConfig')
   const tc = useTranslations('common')
   const tp = useTranslations('providerSection')
+  const tauth = useTranslations('auth')
 
   const savingState =
     saveStatus === 'saving'
@@ -153,6 +154,12 @@ export function ApiConfigTabContainer() {
   })
   const [testStatus, setTestStatus] = useState<TestStatus>('idle')
   const [testSteps, setTestSteps] = useState<TestStep[]>([])
+
+  // Change password state
+  const [newPassword, setNewPassword] = useState('')
+  const [changing, setChanging] = useState(false)
+  const [changeError, setChangeError] = useState('')
+  const [changeSuccess, setChangeSuccess] = useState('')
 
   const doAddProvider = useCallback(() => {
     const uuid = (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
@@ -234,6 +241,50 @@ export function ApiConfigTabContainer() {
     [updateWorkflowConcurrency],
   )
 
+  const handleChangePassword = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+      setChangeError('')
+      setChangeSuccess('')
+
+      const trimmed = newPassword.trim()
+      if (trimmed.length < 6) {
+        setChangeError(tauth('passwordTooShort'))
+        return
+      }
+
+      setChanging(true)
+      try {
+        const response = await apiFetch('/api/auth/change-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ newPassword: trimmed }),
+        })
+
+        const data = await response.json().catch(() => ({}))
+
+        if (!response.ok || data.success === false) {
+          const message =
+            (typeof data.message === 'string' && data.message) ||
+            (typeof data.error?.message === 'string' && data.error.message) ||
+            tauth('signupError')
+          setChangeError(message)
+          return
+        }
+
+        setChangeSuccess(tauth('changePasswordSuccess'))
+        setNewPassword('')
+      } catch {
+        setChangeError(tauth('signupError'))
+      } finally {
+        setChanging(false)
+      }
+    },
+    [newPassword, tauth],
+  )
+
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center p-6 text-[var(--glass-text-tertiary)]">
@@ -305,6 +356,56 @@ export function ApiConfigTabContainer() {
               addGeminiProvider: t('addGeminiProvider'),
             }}
           />
+
+          {/* Change password card */}
+          <div
+            id="change-password-card"
+            className="glass-surface-soft rounded-2xl border border-[var(--glass-stroke-base)] p-5 max-w-md"
+          >
+            <h3 className="text-sm font-semibold text-[var(--glass-text-primary)] mb-3">
+              {tauth('changePasswordTitle')}
+            </h3>
+            <p className="text-xs text-[var(--glass-text-secondary)] mb-4">
+              {tauth('changePasswordDescription')}
+            </p>
+            <form onSubmit={handleChangePassword} className="space-y-3">
+              <div>
+                <label className="glass-field-label block mb-1.5 text-xs" htmlFor="new-password">
+                  {tauth('newPassword')}
+                </label>
+                <input
+                  id="new-password"
+                  type="password"
+                  autoComplete="new-password"
+                  value={newPassword}
+                  onChange={(event) => setNewPassword(event.target.value)}
+                  className="glass-input-base w-full px-3 py-2.5 text-sm"
+                  placeholder={tauth('passwordMinPlaceholder')}
+                  required
+                />
+              </div>
+
+              {changeError && (
+                <div className="bg-[var(--glass-tone-danger-bg)] border border-[color:color-mix(in_srgb,var(--glass-tone-danger-fg)_22%,transparent)] text-[var(--glass-tone-danger-fg)] px-3 py-2 rounded-lg text-xs">
+                  {changeError}
+                </div>
+              )}
+
+              {changeSuccess && (
+                <div className="bg-[var(--glass-tone-success-bg)] border border-[color:color-mix(in_srgb,var(--glass-tone-success-fg)_22%,transparent)] text-[var(--glass-tone-success-fg)] px-3 py-2 rounded-lg text-xs">
+                  {changeSuccess}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={changing}
+                className="glass-btn-base glass-btn-primary px-4 py-2 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {changing ? tauth('changePasswordLoading') : tauth('changePasswordButton')}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { useSession } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import LanguageSwitcher from './LanguageSwitcher'
 import { AppIcon } from '@/components/ui/icons'
@@ -134,6 +134,15 @@ export default function Navbar() {
                     <AppIcon name="download" className="w-4 h-4" />
                     {t('downloadLogs')}
                   </a>
+                  <button
+                    type="button"
+                    onClick={() => signOut({ callbackUrl: '/' })}
+                    className="text-sm text-[var(--glass-text-secondary)] hover:text-[var(--glass-text-primary)] font-medium transition-colors flex items-center gap-1"
+                    title={t('logout')}
+                  >
+                    <AppIcon name="logout" className="w-4 h-4" />
+                    {t('logout')}
+                  </button>
                 </>
 
               ) : (

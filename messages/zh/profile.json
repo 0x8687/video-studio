@@ -8,6 +8,7 @@
     "apiConfig": "API 配置",
     "rechargeRecords": "充值记录",
     "billingRecords": "扣费记录",
+    "changePassword": "修改密码",
     "logout": "退出登录",
     "downloadLogs": "下载日志",
     "accountTransactions": "账户流水",
