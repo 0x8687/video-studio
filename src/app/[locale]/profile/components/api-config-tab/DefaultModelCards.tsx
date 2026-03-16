@@ -308,7 +308,7 @@ export function DefaultModelCards(allProps: DefaultModelCardsProps) {
                             field="analysisModel" modelType="llm"
                             options={textModel.options} normalizedKey={textModel.normalizedKey} current={textModel.current}
                             placeholder={t('defaultModelSection.corePlaceholder')}
-                            locale={locale} t={t} props={allProps}
+                            locale={locale} props={allProps}
                         />
                     </div>
 
@@ -338,7 +338,7 @@ export function DefaultModelCards(allProps: DefaultModelCardsProps) {
                             field="videoModel" modelType="video"
                             options={videoModel.options} normalizedKey={videoModel.normalizedKey} current={videoModel.current}
                             placeholder={t('defaultModelSection.corePlaceholder')}
-                            locale={locale} t={t} props={allProps}
+                            locale={locale} props={allProps}
                         />
                     </div>
                 </div>
@@ -410,7 +410,7 @@ export function DefaultModelCards(allProps: DefaultModelCardsProps) {
                                         field={item.field} modelType={item.modelType}
                                         options={resolved.options} normalizedKey={resolved.normalizedKey} current={resolved.current}
                                         placeholder={t('defaultModelSection.followUnified')}
-                                        locale={locale} t={t} props={allProps}
+                                        locale={locale} props={allProps}
                                     />
                                 </div>
                             )
@@ -431,7 +431,7 @@ export function DefaultModelCards(allProps: DefaultModelCardsProps) {
                             field="lipSyncModel" modelType="lipsync"
                             options={lipsyncModel.options} normalizedKey={lipsyncModel.normalizedKey} current={lipsyncModel.current}
                             placeholder={t('defaultModelSection.extPlaceholder')}
-                            locale={locale} t={t} props={allProps}
+                            locale={locale} props={allProps}
                         />
                     </div>
                     {/* TTS */}
@@ -441,7 +441,7 @@ export function DefaultModelCards(allProps: DefaultModelCardsProps) {
                             field="audioModel" modelType="audio"
                             options={audioModel.options} normalizedKey={audioModel.normalizedKey} current={audioModel.current}
                             placeholder={t('defaultModelSection.extPlaceholder')}
-                            locale={locale} t={t} props={allProps}
+                            locale={locale} props={allProps}
                         />
                     </div>
                     {/* Voice Design */}
@@ -451,7 +451,7 @@ export function DefaultModelCards(allProps: DefaultModelCardsProps) {
                             field="voiceDesignModel" modelType="voicedesign"
                             options={voiceDesignModel.options} normalizedKey={voiceDesignModel.normalizedKey} current={voiceDesignModel.current}
                             placeholder={t('defaultModelSection.extPlaceholder')}
-                            locale={locale} t={t} props={allProps}
+                            locale={locale} props={allProps}
                         />
                     </div>
                 </div>
