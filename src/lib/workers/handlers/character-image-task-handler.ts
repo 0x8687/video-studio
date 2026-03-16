@@ -80,7 +80,7 @@ export async function handleCharacterImageTask(job: Job<TaskJobData>) {
 
   const appearanceId = pickFirstString(job.data.targetId, payload.appearanceId)
   let appearance: CharacterAppearanceRecord | null = null
-  let characterName = '角色'
+  let characterName = 'Character'
 
   if (appearanceId) {
     const appearanceWithCharacter = await db.characterAppearance.findUnique({
@@ -141,7 +141,7 @@ export async function handleCharacterImageTask(job: Job<TaskJobData>) {
 
   const imageUrls = parseImageUrls(appearance.imageUrls, 'characterAppearance.imageUrls')
   const nextImageUrls = [...imageUrls]
-  const label = `${characterName} - ${appearance.changeReason || '形象'}`
+  const label = `${characterName} - ${appearance.changeReason || 'Appearance'}`
 
   for (let i = 0; i < indexes.length; i++) {
     const index = indexes[i]

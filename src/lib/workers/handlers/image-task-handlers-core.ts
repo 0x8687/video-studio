@@ -108,7 +108,7 @@ export async function handleModifyAssetImageTask(job: Job<TaskJobData>) {
       },
     })
 
-    const label = `${appearance.character?.name || '角色'} - ${appearance.changeReason || '形象'}`
+    const label = `${appearance.character?.name || 'Character'} - ${appearance.changeReason || 'Appearance'}`
     const labeled = await withLabelBar(source, label)
     const cosKey = await uploadImageSourceToCos(labeled, 'character-modify', appearance.id)
 
@@ -211,7 +211,7 @@ export async function handleModifyAssetImageTask(job: Job<TaskJobData>) {
       },
     })
 
-    const label = locationImage.location?.name || '场景'
+    const label = locationImage.location?.name || 'Location'
     const labeled = await withLabelBar(source, label)
     const cosKey = await uploadImageSourceToCos(labeled, 'location-modify', locationImage.id)
 
@@ -229,7 +229,7 @@ export async function handleModifyAssetImageTask(job: Job<TaskJobData>) {
             currentDescription: locationImage.description,
             modifyInstruction,
             referenceImages: normalizedExtras,
-            locationName: locationImage.location?.name || '场景',
+            locationName: locationImage.location?.name || 'Location',
             projectId: job.data.projectId,
           })
         }

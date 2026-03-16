@@ -140,7 +140,7 @@ export async function handleAssetHubModifyTask(job: Job<TaskJobData>) {
       },
     })
 
-    const label = `${character.name} - ${appearance.changeReason || '形象'}`
+    const label = `${character.name} - ${appearance.changeReason || 'Appearance'}`
     const labeled = await withLabelBar(source, label)
     const cosKey = await uploadImageSourceToCos(labeled, 'global-character-modify', appearance.id)
 

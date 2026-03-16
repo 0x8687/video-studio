@@ -435,7 +435,7 @@ export function ModelInnovativeV9(props: ModelDropdownTestProps) {
                                                 <button
                                                     onClick={() => setView('params')}
                                                     className="px-2 py-2 w-[40px] flex items-center justify-center rounded-lg bg-[var(--glass-bg-surface-strong)] hover:bg-[var(--glass-bg-hover)] border border-[var(--glass-stroke-subtle)] text-[var(--glass-text-secondary)] shadow-sm"
-                                                    title="配置参数"
+                                                    title="Configure Parameters"
                                                 >
                                                     <AppIcon name="settingsHex" className="w-4 h-4" />
                                                 </button>
