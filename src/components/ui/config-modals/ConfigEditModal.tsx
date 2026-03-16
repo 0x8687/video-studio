@@ -6,6 +6,8 @@ import {
     ART_STYLES,
     VIDEO_RATIOS,
 } from '@/lib/constants'
+import { useCustomStyles } from '@/lib/query/hooks'
+import CustomStyleManager from '@/components/custom-style/CustomStyleManager'
 import type {
     CapabilitySelections,
     CapabilityValue,
@@ -153,6 +155,8 @@ export function SettingsModal({
     const t = useTranslations('configModal')
     const locale = useLocale() as 'en' | 'zh' | (string & {})
     const [saveStatus, setSaveStatus] = useState<'idle' | 'saved'>('idle')
+    const [customStyleManagerOpen, setCustomStyleManagerOpen] = useState(false)
+    const { data: customStyles = [] } = useCustomStyles()
     const userModels = useMemo<UserModels>(() => ({
         llm: Array.isArray(availableModels?.llm) ? availableModels.llm : [],
         image: Array.isArray(availableModels?.image) ? availableModels.image : [],
@@ -376,6 +380,8 @@ export function SettingsModal({
                                     value: style.value,
                                     label: locale === 'en' ? style.labelEn : style.label,
                                 }))}
+                                customStyles={customStyles}
+                                onManageCustomStyles={() => setCustomStyleManagerOpen(true)}
                             />
                         </div>
                     </div>
@@ -508,6 +514,11 @@ export function SettingsModal({
                 </div>
             </div>
         </div>
+
+        <CustomStyleManager
+            open={customStyleManagerOpen}
+            onClose={() => setCustomStyleManagerOpen(false)}
+        />
     )
 }
 
