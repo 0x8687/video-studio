@@ -165,6 +165,20 @@ export function isArtStyleValue(value: unknown): value is ArtStyleValue {
   return typeof value === 'string' && ART_STYLES.some((style) => style.value === value)
 }
 
+export const CUSTOM_STYLE_PREFIX = 'custom::'
+
+export function isCustomStyleValue(value: unknown): value is string {
+  return typeof value === 'string' && value.startsWith(CUSTOM_STYLE_PREFIX)
+}
+
+export function getCustomStyleId(value: string): string {
+  return value.slice(CUSTOM_STYLE_PREFIX.length)
+}
+
+export function isValidArtStyleFormat(value: unknown): boolean {
+  return isArtStyleValue(value) || isCustomStyleValue(value)
+}
+
 /**
  * 🔥 实时从 ART_STYLES 常量获取风格 prompt
  * 这是获取风格 prompt 的唯一正确方式，确保始终使用最新的常量定义

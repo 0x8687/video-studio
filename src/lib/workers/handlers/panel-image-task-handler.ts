@@ -1,6 +1,6 @@
 import { type Job } from 'bullmq'
 import { prisma } from '@/lib/prisma'
-import { getArtStylePrompt } from '@/lib/constants'
+import { resolveArtStylePrompt } from '@/lib/art-style'
 import { createScopedLogger } from '@/lib/logging/core'
 import { type TaskJobData } from '@/lib/task/types'
 import { reportTaskProgress } from '../shared'
@@ -194,7 +194,7 @@ export async function handlePanelImageTask(job: Job<TaskJobData>) {
     },
   })
 
-  const artStyle = getArtStylePrompt(modelConfig.artStyle, job.data.locale)
+  const artStyle = await resolveArtStylePrompt(modelConfig.artStyle, job.data.locale, job.data.userId)
   if (!projectData.videoRatio) throw new Error('Project videoRatio not configured')
   const aspectRatio = projectData.videoRatio
   const promptContext = buildPanelPromptContext({

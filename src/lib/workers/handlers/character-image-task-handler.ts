@@ -1,6 +1,7 @@
 import { type Job } from 'bullmq'
 import { prisma } from '@/lib/prisma'
-import { addCharacterPromptSuffix, getArtStylePrompt, isArtStyleValue, PRIMARY_APPEARANCE_INDEX, type ArtStyleValue } from '@/lib/constants'
+import { addCharacterPromptSuffix, isArtStyleValue, isCustomStyleValue, PRIMARY_APPEARANCE_INDEX, type ArtStyleValue } from '@/lib/constants'
+import { resolveArtStylePrompt } from '@/lib/art-style'
 import { type TaskJobData } from '@/lib/task/types'
 import { encodeImageUrls } from '@/lib/contracts/image-urls-contract'
 import { normalizeImageGenerationCount } from '@/lib/image-generation/count'
@@ -19,10 +20,10 @@ import {
   pickFirstString,
 } from './image-task-handler-shared'
 
-function resolvePayloadArtStyle(payload: AnyObj): ArtStyleValue | undefined {
+function resolvePayloadArtStyle(payload: AnyObj): ArtStyleValue | string | undefined {
   if (!Object.prototype.hasOwnProperty.call(payload, 'artStyle')) return undefined
   const parsedArtStyle = typeof payload.artStyle === 'string' ? payload.artStyle.trim() : ''
-  if (!isArtStyleValue(parsedArtStyle)) {
+  if (!isArtStyleValue(parsedArtStyle) && !isCustomStyleValue(parsedArtStyle)) {
     throw new Error('Invalid artStyle in IMAGE_CHARACTER payload')
   }
   return parsedArtStyle
@@ -107,7 +108,7 @@ export async function handleCharacterImageTask(job: Job<TaskJobData>) {
   if (!appearance) throw new Error('Character appearance not found')
 
   const payloadArtStyle = resolvePayloadArtStyle(payload)
-  const artStyle = getArtStylePrompt(payloadArtStyle ?? models.artStyle, job.data.locale)
+  const artStyle = await resolveArtStylePrompt(payloadArtStyle ?? models.artStyle, job.data.locale, job.data.userId)
   const descriptions = parseJsonStringArray(appearance.descriptions)
   const baseDescriptions = descriptions.length > 0 ? descriptions : [appearance.description || '']
 
