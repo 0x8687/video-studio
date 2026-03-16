@@ -2,7 +2,7 @@
 import { logError as _ulogError } from '@/lib/logging/core'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { ART_STYLES } from '@/lib/constants'
 import { shouldShowError } from '@/lib/error-utils'
 import { useImageGenerationCount } from '@/lib/image-generation/use-image-generation-count'
@@ -49,6 +49,7 @@ export default function AddLocationModal({
   onSuccess
 }: AddLocationModalProps) {
   const t = useTranslations('assets')
+  const locale = useLocale() as 'en' | 'zh' | (string & {})
   const tc = useTranslations('common')
   const aiCreateLocationMutation = useAiCreateProjectLocation(projectId)
   const createLocationMutation = useCreateProjectLocation(projectId)
@@ -165,19 +166,24 @@ export default function AddLocationModal({
                 {t('modal.artStyle')}
               </label>
               <div className="grid grid-cols-2 gap-2">
-                {ART_STYLES.map((style) => (
-                  <button
-                    key={style.value}
-                    type="button"
-                    onClick={() => setArtStyle(style.value)}
-                    className={`px-3 py-2 rounded-lg text-sm border transition-all flex items-center ${artStyle === style.value
-                      ? 'border-[var(--glass-stroke-focus)] bg-[var(--glass-tone-info-bg)] text-[var(--glass-tone-info-fg)]'
-                      : 'border-[var(--glass-stroke-base)] hover:border-[var(--glass-stroke-strong)] text-[var(--glass-text-secondary)]'
-                      }`}
-                  >
-                    <span>{style.label}</span>
-                  </button>
-                ))}
+                {ART_STYLES.map((style) => {
+                  const label = locale === 'en' && 'labelEn' in style && typeof (style as any).labelEn === 'string'
+                    ? (style as any).labelEn as string
+                    : style.label
+                  return (
+                    <button
+                      key={style.value}
+                      type="button"
+                      onClick={() => setArtStyle(style.value)}
+                      className={`px-3 py-2 rounded-lg text-sm border transition-all flex items-center ${artStyle === style.value
+                        ? 'border-[var(--glass-stroke-focus)] bg-[var(--glass-tone-info-bg)] text-[var(--glass-tone-info-fg)]'
+                        : 'border-[var(--glass-stroke-base)] hover:border-[var(--glass-stroke-strong)] text-[var(--glass-text-secondary)]'
+                        }`}
+                    >
+                      <span>{label}</span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
 

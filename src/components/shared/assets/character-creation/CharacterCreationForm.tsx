@@ -2,7 +2,7 @@
 
 import type { DragEvent, RefObject } from 'react'
 import { useRef } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { ART_STYLES } from '@/lib/constants'
 import CharacterCreationPreview from './CharacterCreationPreview'
 import { AppIcon } from '@/components/ui/icons'
@@ -94,6 +94,7 @@ export default function CharacterCreationForm({
   onUploadFileChange,
 }: CharacterCreationFormProps) {
   const t = useTranslations('assetModal')
+  const locale = useLocale() as 'en' | 'zh' | (string & {})
   const uploadFileInputRef = useRef<HTMLInputElement | null>(null)
 
   return (
@@ -181,19 +182,24 @@ export default function CharacterCreationForm({
             {t('artStyle.title')}
           </label>
           <div className="grid grid-cols-2 gap-2">
-            {ART_STYLES.map((style) => (
-              <button
-                key={style.value}
-                type="button"
-                onClick={() => setArtStyle(style.value)}
-                className={`glass-btn-base px-3 py-2 rounded-lg text-sm border transition-all justify-start ${artStyle === style.value
-                  ? 'glass-btn-tone-info border-[var(--glass-stroke-focus)]'
-                  : 'glass-btn-soft border-[var(--glass-stroke-base)] text-[var(--glass-text-secondary)]'
-                  }`}
-              >
-                <span>{style.label}</span>
-              </button>
-            ))}
+            {ART_STYLES.map((style) => {
+              const label = locale === 'en' && 'labelEn' in style && typeof (style as any).labelEn === 'string'
+                ? (style as any).labelEn as string
+                : style.label
+              return (
+                <button
+                  key={style.value}
+                  type="button"
+                  onClick={() => setArtStyle(style.value)}
+                  className={`glass-btn-base px-3 py-2 rounded-lg text-sm border transition-all justify-start ${artStyle === style.value
+                    ? 'glass-btn-tone-info border-[var(--glass-stroke-focus)]'
+                    : 'glass-btn-soft border-[var(--glass-stroke-base)] text-[var(--glass-text-secondary)]'
+                    }`}
+                >
+                  <span>{label}</span>
+                </button>
+              )
+            })}
           </div>
         </div>
       )}

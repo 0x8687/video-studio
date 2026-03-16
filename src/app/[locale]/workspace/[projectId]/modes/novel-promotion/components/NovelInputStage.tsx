@@ -5,7 +5,7 @@
  * V3.2 UI: 极简版，专注剧本输入，资产管理移至资产库
  */
 
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { useState, useRef, useEffect } from 'react'
 import '@/styles/animations.css'
 import { ART_STYLES, VIDEO_RATIOS } from '@/lib/constants'
@@ -221,6 +221,7 @@ export default function NovelInputStage({
   onArtStyleChange
 }: NovelInputStageProps) {
   const t = useTranslations('novelPromotion')
+  const locale = useLocale() as 'en' | 'zh' | (string & {})
 
   // ── IME 组合输入处理 ──
   // 中文/日文/韩文输入法在组合（composing）期间会持续触发 onChange，
@@ -260,7 +261,14 @@ export default function NovelInputStage({
 
   // 当前配置展示文案
   const ratioDisplayLabel = (VIDEO_RATIOS.find((option) => option.value === videoRatio) ?? VIDEO_RATIOS[0])?.label
-  const artStyleDisplayLabel = (ART_STYLES.find((option) => option.value === artStyle) ?? ART_STYLES[0])?.label
+  const artStyleDisplayLabel = (() => {
+    const option = ART_STYLES.find((item) => item.value === artStyle) ?? ART_STYLES[0]
+    if (!option) return ''
+    if (locale === 'en' && 'labelEn' in option && typeof (option as any).labelEn === 'string') {
+      return (option as any).labelEn as string
+    }
+    return option.label
+  })()
 
   // 不同比例适合的素材类型文案映射（完整句子，用于 info 悬浮层）
   const ratioUsageTextMap: Record<string, string> = {
@@ -412,7 +420,10 @@ AI 将根据您的文本智能分析：
               value={artStyle}
               onChange={(value) => onArtStyleChange?.(value)}
               options={ART_STYLES.map((option) => ({
-                ...option,
+                value: option.value,
+                label: locale === 'en' && 'labelEn' in option && typeof (option as any).labelEn === 'string'
+                  ? (option as any).labelEn as string
+                  : option.label,
                 recommended: option.value === 'realistic'
               }))}
             />

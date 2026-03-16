@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import {
     ART_STYLES,
     VIDEO_RATIOS,
@@ -151,6 +151,7 @@ export function SettingsModal({
     onTTSRateChange,
 }: SettingsModalProps) {
     const t = useTranslations('configModal')
+    const locale = useLocale() as 'en' | 'zh' | (string & {})
     const [saveStatus, setSaveStatus] = useState<'idle' | 'saved'>('idle')
     const userModels = useMemo<UserModels>(() => ({
         llm: Array.isArray(availableModels?.llm) ? availableModels.llm : [],
@@ -371,7 +372,12 @@ export function SettingsModal({
                             <StyleSelector
                                 value={artStyle}
                                 onChange={(value) => handleChange(onArtStyleChange)(value)}
-                                options={ART_STYLES}
+                                options={ART_STYLES.map((style) => ({
+                                    value: style.value,
+                                    label: locale === 'en' && 'labelEn' in style && typeof (style as any).labelEn === 'string'
+                                        ? (style as any).labelEn as string
+                                        : style.label,
+                                }))}
                             />
                         </div>
                     </div>
