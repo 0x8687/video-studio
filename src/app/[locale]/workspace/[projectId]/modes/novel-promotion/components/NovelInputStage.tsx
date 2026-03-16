@@ -406,15 +406,15 @@ export default function NovelInputStage({
             onChange={handleTextChange}
             onCompositionStart={handleCompositionStart}
             onCompositionEnd={handleCompositionEnd}
-            placeholder={`请输入您的剧本或小说内容...
+            placeholder={`Enter your script or novel content here...
 
-AI 将根据您的文本智能分析：
-• 自动识别场景切换
-• 提取角色对话和动作
-• 生成分镜脚本
+AI will intelligently analyze your text:
+• Auto-detect scene transitions
+• Extract character dialogue and actions
+• Generate storyboard scripts
 
-例如：
-清晨，阳光透过窗帘洒进房间。小明揉着惺忪的睡眼从床上坐起，看了一眼床头的闹钟——已经八点了！他猛地跳下床，手忙脚乱地开始穿衣服...`}
+Example:
+Early morning. Sunlight filters through the curtains. Alex rubs his sleepy eyes and sits up, glancing at the alarm clock — it's already 8 o'clock! He leaps out of bed and frantically starts getting dressed...`}
             className="glass-textarea-base custom-scrollbar h-80 px-4 py-3 text-base resize-none placeholder:text-[var(--glass-text-tertiary)]"
             disabled={isSubmittingTask || isSwitchingStage}
           />
