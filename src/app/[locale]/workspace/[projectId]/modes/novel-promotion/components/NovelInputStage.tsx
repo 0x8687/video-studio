@@ -211,7 +211,7 @@ function StyleSelector({
                         }`}
                     >
                       <span className="w-6 h-6 rounded flex-shrink-0 bg-[var(--glass-bg-muted)] flex items-center justify-center text-xs font-semibold">
-                        {style.preview || '自'}
+                        {style.preview || 'S'}
                       </span>
                       <span className="font-medium text-sm truncate">{style.name}</span>
                     </button>

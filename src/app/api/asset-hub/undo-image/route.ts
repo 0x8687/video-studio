@@ -100,7 +100,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
             }
         })
 
-        return NextResponse.json({ success: true, message: '已撤回到上一版本（图片和描述词）' })
+        return NextResponse.json({ success: true, message: 'Reverted to previous version (image and description)' })
 
     } else if (type === 'location') {
         const location = await db.globalLocation.findFirst({
@@ -128,7 +128,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
             }
         }
 
-        return NextResponse.json({ success: true, message: '已撤回到上一版本（图片和描述词）' })
+        return NextResponse.json({ success: true, message: 'Reverted to previous version (image and description)' })
 
     } else {
         throw new ApiError('INVALID_PARAMS')

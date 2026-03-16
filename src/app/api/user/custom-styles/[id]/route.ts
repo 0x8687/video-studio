@@ -29,7 +29,7 @@ export const PATCH = apiHandler(async (
     updateData.prompt = body.prompt.trim()
   }
   if (typeof body.preview === 'string') {
-    updateData.preview = body.preview.trim().slice(0, 2) || '自'
+    updateData.preview = body.preview.trim().slice(0, 2) || 'S'
   }
 
   if (Object.keys(updateData).length === 0) {

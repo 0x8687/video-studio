@@ -26,7 +26,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
   const body = await request.json()
   const name = typeof body.name === 'string' ? body.name.trim() : ''
   const prompt = typeof body.prompt === 'string' ? body.prompt.trim() : ''
-  const preview = typeof body.preview === 'string' ? body.preview.trim().slice(0, 2) : '自'
+  const preview = typeof body.preview === 'string' ? body.preview.trim().slice(0, 2) : 'S'
 
   if (!name) {
     throw new ApiError('INVALID_PARAMS', {
@@ -47,7 +47,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
     data: {
       userId: session.user.id,
       name,
-      preview: preview || '自',
+      preview: preview || 'S',
       prompt,
     },
   })

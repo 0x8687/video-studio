@@ -12,7 +12,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
   if (rateResult.limited) {
     logAuthAction('REGISTER', 'unknown', { error: 'Rate limited', ip })
     return NextResponse.json(
-      { success: false, message: `请求过于频繁，请 ${rateResult.retryAfterSeconds} 秒后再试` },
+      { success: false, message: `Too many requests, please try again in ${rateResult.retryAfterSeconds} seconds` },
       {
         status: 429,
         headers: { 'Retry-After': String(rateResult.retryAfterSeconds) },
@@ -76,7 +76,7 @@ export const POST = apiHandler(async (request: NextRequest) => {
 
   return NextResponse.json(
     {
-      message: "注册成功",
+      message: "Registration successful",
       user: {
         id: user.id,
         name: user.name

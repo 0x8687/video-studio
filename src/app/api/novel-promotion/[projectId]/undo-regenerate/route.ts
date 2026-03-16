@@ -159,7 +159,7 @@ async function undoCharacterRegenerate(db: UndoRegenerateDb, appearanceId: strin
 
     return NextResponse.json({
         success: true,
-        message: '已撤回到上一版本（图片和描述词）'
+        message: 'Reverted to previous version (image and description)'
     })
 }
 
@@ -208,7 +208,7 @@ async function undoLocationRegenerate(db: UndoRegenerateDb, locationId: string) 
 
     return NextResponse.json({
         success: true,
-        message: '已撤回到上一版本（图片和描述词）'
+        message: 'Reverted to previous version (image and description)'
     })
 }
 
@@ -250,6 +250,6 @@ async function undoPanelRegenerate(db: UndoRegenerateDb, panelId: string) {
 
     return NextResponse.json({
         success: true,
-        message: '镜头图片已撤回到上一版本'
+        message: 'Panel image reverted to previous version'
     })
 }
