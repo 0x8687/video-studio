@@ -334,6 +334,7 @@ export function SettingsModal({
     if (!isOpen) return null
 
     return (
+        <>
         <div
             className="fixed inset-0 z-[100] flex items-center justify-center glass-overlay animate-fadeIn"
             onClick={(e) => {
@@ -519,6 +520,7 @@ export function SettingsModal({
             open={customStyleManagerOpen}
             onClose={() => setCustomStyleManagerOpen(false)}
         />
+        </>
     )
 }
 
