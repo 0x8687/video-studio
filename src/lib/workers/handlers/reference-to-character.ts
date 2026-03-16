@@ -136,7 +136,7 @@ export async function handleReferenceToCharacterTask(job: Job<TaskJobData>) {
   const characterId = readString(payload.characterId)
   const extractOnly = readBoolean(payload.extractOnly)
   const customDescription = readString(payload.customDescription)
-  const characterName = readString(payload.characterName) || '新角色 - 初始形象'
+  const characterName = readString(payload.characterName) || 'New Character - Initial Look'
   const artStyle = readString(payload.artStyle)
 
   if (isBackgroundJob && (!characterId || !appearanceId)) {
