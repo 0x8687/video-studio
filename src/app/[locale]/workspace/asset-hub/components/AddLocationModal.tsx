@@ -168,9 +168,7 @@ export function AddLocationModal({ folderId, onClose, onSuccess }: AddLocationMo
                             </label>
                             <div className="grid grid-cols-2 gap-2">
                                 {ART_STYLES.map((style) => {
-                                    const label = locale === 'en' && 'labelEn' in style && typeof (style as any).labelEn === 'string'
-                                        ? (style as any).labelEn as string
-                                        : style.label
+                                    const label = locale === 'en' ? style.labelEn : style.label
                                     return (
                                         <button
                                             key={style.value}

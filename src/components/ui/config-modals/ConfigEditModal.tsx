@@ -374,9 +374,7 @@ export function SettingsModal({
                                 onChange={(value) => handleChange(onArtStyleChange)(value)}
                                 options={ART_STYLES.map((style) => ({
                                     value: style.value,
-                                    label: locale === 'en' && 'labelEn' in style && typeof (style as any).labelEn === 'string'
-                                        ? (style as any).labelEn as string
-                                        : style.label,
+                                    label: locale === 'en' ? style.labelEn : style.label,
                                 }))}
                             />
                         </div>
