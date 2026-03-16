@@ -264,8 +264,8 @@ export default function NovelInputStage({
   const artStyleDisplayLabel = (() => {
     const option = ART_STYLES.find((item) => item.value === artStyle) ?? ART_STYLES[0]
     if (!option) return ''
-    if (locale === 'en' && 'labelEn' in option && typeof (option as any).labelEn === 'string') {
-      return (option as any).labelEn as string
+    if (locale === 'en') {
+      return option.labelEn
     }
     return option.label
   })()
@@ -421,9 +421,7 @@ AI 将根据您的文本智能分析：
               onChange={(value) => onArtStyleChange?.(value)}
               options={ART_STYLES.map((option) => ({
                 value: option.value,
-                label: locale === 'en' && 'labelEn' in option && typeof (option as any).labelEn === 'string'
-                  ? (option as any).labelEn as string
-                  : option.label,
+                label: locale === 'en' ? option.labelEn : option.label,
                 recommended: option.value === 'realistic'
               }))}
             />
